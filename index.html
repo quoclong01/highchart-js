@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bubble Chart with Google Sheets</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <!-- load jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"
+    ></script>
+    <!-- load Highcharts, Highcharts-more, and modules -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  </head>
+  <body>
+    <div id="container1" style="width: 800px; height: 500px"></div>
+    <div id="container" style="width: 800px; height: 400px"></div>
+    <script>
+      $(function () {
+        // Chart.register(ChartjsPluginStacked100.default);
+        $.get('data-sample.csv', function (csv) {
+          const sheetValue = csvToObject(csv);
+          console.log(sheetValue);
+          const labels = [...sheetValue[1]].splice(1);
+
+          Highcharts.chart('container', {
+            chart: {
+              type: 'column',
+            },
+            title: {
+              text: 'CƠ CẤU TÀI SẢN',
+              align: 'left',
+            },
+            xAxis: {
+              categories: labels,
+            },
+            yAxis: {
+              min: 0,
+            },
+            tooltip: {
+              pointFormat:
+                '<span style="color:{series.color}">{series.name}</span>' +
+                ': <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+              shared: true,
+            },
+            plotOptions: {
+              column: {
+                stacking: 'percent',
+              },
+            },
+            series: [
+              {
+                name: [...sheetValue[52]][0],
+                data: [...sheetValue[52]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[51]][0],
+                data: [...sheetValue[51]].splice(1).map((item) => +item),
+              },
+            ],
+          });
+          console.log([...sheetValue[2]][0]);
+
+          Highcharts.chart('container1', {
+            chart: {
+              type: 'column',
+            },
+            title: {
+              text: 'TÀI SẢN',
+              align: 'left',
+            },
+            xAxis: {
+              categories: labels,
+            },
+            yAxis: {
+              min: 0,
+            },
+            tooltip: {
+              headerFormat: '<b>{category}</b><br/>',
+              pointFormat: '{series.name}: {point.y}',
+            },
+            plotOptions: {
+              column: {
+                stacking: 'normal',
+              },
+            },
+            series: [
+              {
+                name: [...sheetValue[12]][0],
+                data: [...sheetValue[12]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[11]][0],
+                data: [...sheetValue[11]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[10]][0],
+                data: [...sheetValue[10]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[9]][0],
+                data: [...sheetValue[9]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[8]][0],
+                data: [...sheetValue[8]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[7]][0],
+                data: [...sheetValue[7]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[6]][0],
+                data: [...sheetValue[6]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[5]][0],
+                data: [...sheetValue[5]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[4]][0],
+                data: [...sheetValue[4]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[3]][0],
+                data: [...sheetValue[3]].splice(1).map((item) => +item),
+              },
+              {
+                name: [...sheetValue[2]][0],
+                data: [...sheetValue[2]].splice(1).map((item) => +item),
+              },
+            ],
+          });
+        });
+      });
+
+      function csvToObject(data) {
+        const result = [];
+        const csvRows = data.split('\r\n');
+        for (let i = 0; i < csvRows.length; ++i) {
+          const row = csvRows[i].split(',');
+          result.push(row);
+        }
+        return result;
+      }
+    </script>
+  </body>
+</html>
